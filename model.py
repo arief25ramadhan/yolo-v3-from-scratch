@@ -41,7 +41,7 @@ class CNNBlock(nn.Module):
     def __init__(self, in_channels, out_channels, bn_act=True, **kwargs):
         super().__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, bias=not bn_act, **kwargs)
-        self.bn = bb.BatchNorm2d(out_channels)
+        self.bn = nn.BatchNorm2d(out_channels)
         self.leaky = nn.LeakyReLU(0.1)
         self.use_bn_act = bn_act
     
@@ -77,13 +77,13 @@ class ScalePrediction(nn.Module):
         super().__init__()
         self.pred = nn.Sequential(
             CNNBlock(in_channels, 2*in_channels, kernel_size=3, padding=1),
-            CNNBlock(2*in_channels, 3*(num_classes*5), bn_act=False, kernel_size=1)         
+            CNNBlock(2*in_channels, 3*(num_classes+5), bn_act=False, kernel_size=1)         
         )
         self.num_classes = num_classes
 
     def forward(self, x):
         return (self.pred(x).reshape(x.shape[0], 3, 
-                                     self.num_classes*5, x.shape[2],
+                                     self.num_classes+5, x.shape[2],
                                      x.shape[3]).permute(0, 1, 3, 4, 2)) 
                                      
 
@@ -109,7 +109,7 @@ class YOLOv3(nn.Module):
             if isinstance(layer, ResidualBlock) and layer.num_repeats == 8:
                 route_connections.append(x)
             
-            else isinstance(layer, nn.Upsample):
+            elif isinstance(layer, nn.Upsample):
                 x = torch.cat([x, route_connections[-1]], dim=1)
                 route_connections.pop()
         
@@ -154,14 +154,17 @@ class YOLOv3(nn.Module):
         return layers
 
 
-if __name__ == "main":
+if __name__ == "__main__":
+
     num_classes=20
     IMAGE_SIZE = 416
     model=YOLOv3(num_classes=num_classes)
     x = torch.randn(2,3, IMAGE_SIZE, IMAGE_SIZE)
     out = model(x)
+    print("HERE")
+    print(model(x)[0].shape)
 
-    assert model(x)[0].shape == (2, 3, 13, IMAGE_SIZE//32, num_classes+5)
+    assert model(x)[0].shape == (2, 3, IMAGE_SIZE//32, IMAGE_SIZE//32, num_classes+5)
     assert model(x)[1].shape == (2, 3, IMAGE_SIZE//16, IMAGE_SIZE//16, num_classes+5)
     assert model(x)[2].shape == (2, 3, IMAGE_SIZE//8, IMAGE_SIZE//8, num_classes+5)
     print("Succes!")

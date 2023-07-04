@@ -161,8 +161,8 @@ if __name__ == "__main__":
     model=YOLOv3(num_classes=num_classes)
     x = torch.randn(2,3, IMAGE_SIZE, IMAGE_SIZE)
     out = model(x)
-    print("HERE")
-    print(model(x)[0].shape)
+    # print("HERE")
+    # print(model(x)[0].shape)
 
     assert model(x)[0].shape == (2, 3, IMAGE_SIZE//32, IMAGE_SIZE//32, num_classes+5)
     assert model(x)[1].shape == (2, 3, IMAGE_SIZE//16, IMAGE_SIZE//16, num_classes+5)

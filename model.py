@@ -47,7 +47,7 @@ class CNNBlock(nn.Module):
     
     def forward(self, x):
         if self.use_bn_act:
-            return self.leaky(self.bn(self.conv))
+            return self.leaky(self.bn(self.conv(x)))
         else:
             return self.conv(x)
 
@@ -56,13 +56,16 @@ class ResidualBlock(nn.Module):
     def __init__(self, channels, use_residual=True, num_repeats=1):
         super().__init__()
         self.layers = nn.ModuleList()
-        for repeat in num_repeats:
+        for _ in range(num_repeats):
             self.layers += [
-                CNNBlock(channels, channels//2, kernel_size=1),
-                CNNBlock(channels//2, channels, kernel_size=3, padding=1)
+                nn.Sequential(
+                    CNNBlock(channels, channels//2, kernel_size=1),
+                    CNNBlock(channels//2, channels, kernel_size=3, padding=1)
+                )
             ]
-            self.use_residual = use_residual
-            self.num_repeats = num_repeats
+            
+        self.use_residual = use_residual
+        self.num_repeats = num_repeats
 
     def forward(self,x):
         for layer in self.layers:
@@ -93,7 +96,25 @@ class YOLOv3(nn.Module):
         self.layers = self._create_conv_layers()
 
     def forward(self, x):
-        pass
+        outputs = []
+        route_connections = []
+
+        for layer in self.layers:
+            if isinstance(layer, ScalePrediction):
+                outputs.append(layer(x))
+                continue
+            
+            x=layer(x)
+
+            if isinstance(layer, ResidualBlock) and layer.num_repeats == 8:
+                route_connections.append(x)
+            
+            else isinstance(layer, nn.Upsample):
+                x = torch.cat([x, route_connections[-1]], dim=1)
+                route_connections.pop()
+        
+        return outputs
+
 
     def _create_conv_layers(self):
         layers = nn.ModuleList()
@@ -123,14 +144,25 @@ class YOLOv3(nn.Module):
                         ResidualBlock(in_channels, use_residual=False, num_repeats=1),
                         CNNBlock(in_channels, in_channels//2, kernel_size=1),
                         ScalePrediction(in_channels//2, num_classes=self.num_classes)
-                    ]
+                    ] 
+                    in_channels = in_channels//2
+
                 elif module == "U":
                     layers.append(nn.Upsample(scale_factor=2))
-                    in_channels = in_channels*2
+                    in_channels = in_channels*3
+        
+        return layers
 
 
+if __name__ == "main":
+    num_classes=20
+    IMAGE_SIZE = 416
+    model=YOLOv3(num_classes=num_classes)
+    x = torch.randn(2,3, IMAGE_SIZE, IMAGE_SIZE)
+    out = model(x)
 
-
-
-
-
+    assert model(x)[0].shape == (2, 3, 13, IMAGE_SIZE//32, num_classes+5)
+    assert model(x)[1].shape == (2, 3, IMAGE_SIZE//16, IMAGE_SIZE//16, num_classes+5)
+    assert model(x)[2].shape == (2, 3, IMAGE_SIZE//8, IMAGE_SIZE//8, num_classes+5)
+    print("Succes!")
+    

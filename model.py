@@ -85,5 +85,52 @@ class ScalePrediction(nn.Module):
                                      
 
 class YOLOv3(nn.Module):
-    pass
+
+    def __init__(self, in_channels=3, num_classes=20):
+        super().__init__()
+        self.num_classes = num_classes
+        self.in_channels = in_channels
+        self.layers = self._create_conv_layers()
+
+    def forward(self, x):
+        pass
+
+    def _create_conv_layers(self):
+        layers = nn.ModuleList()
+        in_channels = self.in_channels
+
+        for module in config: 
+            if isinstance(module, tuple):
+                out_channels, kernel_size, stride = module
+                layers.append(
+                    CNNBlock(
+                        in_channels,
+                        out_channels,
+                        kernel_size=kernel_size,
+                        stride=stride,
+                        padding=1 if kernel_size == 3 else 0,
+                    )
+                )
+                in_channels = out_channels
+            
+            elif isinstance(module, list):
+                num_repeats = module[1]
+                layers.append(ResidualBlock(in_channels, num_repeats=num_repeats))
+            
+            elif isinstance(module, str):
+                if module == "S":
+                    layers += [
+                        ResidualBlock(in_channels, use_residual=False, num_repeats=1),
+                        CNNBlock(in_channels, in_channels//2, kernel_size=1),
+                        ScalePrediction(in_channels//2, num_classes=self.num_classes)
+                    ]
+                elif module == "U":
+                    layers.append(nn.Upsample(scale_factor=2))
+                    in_channels = in_channels*2
+
+
+
+
+
+
 

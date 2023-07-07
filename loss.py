@@ -24,7 +24,7 @@ class YoloLoss(nn.Module):
 
         # No object loss
         no_object_loss = self.bce(
-            (predictions[...,0:1][noobj], (target[...,0:1][noobj]))
+            (predictions[...,0:1][noobj]), (target[...,0:1][noobj])
         )
 
         # Object loss
@@ -34,7 +34,7 @@ class YoloLoss(nn.Module):
                                 dim=-1)
 
         ious = intersection_over_union(box_preds[obj], target[...,1:5][obj]).detach() #detach to avoid gradient counting
-        object_loss = self.bce((predictions[...,0:1][obj]), (ious*target[...,0:1]))
+        object_loss = self.bce((predictions[...,0:1][obj]), (ious*target[...,0:1][obj]))
 
         # Box coordinate loss
         predictions[..., 1:3] = self.sigmoid(predictions[...,1:3])

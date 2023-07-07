@@ -33,11 +33,24 @@ class YoloLoss(nn.Module):
                                 torch.exp(predictions[...,3:5]*anchors)],
                                 dim=-1)
 
-        ious = intersection_over_union(box_preds[obj], target[...,1:5][obj])
-        
+        ious = intersection_over_union(box_preds[obj], target[...,1:5][obj]).detach() #detach to avoid gradient counting
+        object_loss = self.bce((predictions[...,0:1][obj]), (ious*target[...,0:1]))
+
         # Box coordinate loss
+        predictions[..., 1:3] = self.sigmoid(predictions[...,1:3])
+        target[...,3:5] = torch.log(
+            (1e-16 + target[..., 3:5]/anchors)
+        )
+        box_loss = self.mse(predictions[..., 1:5][obj], target[...,1:5][obj])
 
         # Class loss
+        class_loss = self.entropy(
+            (predictions[...,5:][obj]), (target[...,5][obj].long())
+        )
 
-
-
+        return (
+            self.lambda_box*box_loss
+            + self.lambda_obj*object_loss
+            + self.lambda.noobj*no_object_loss
+            + self.lambda_class*class_loss
+        )

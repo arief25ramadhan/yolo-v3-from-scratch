@@ -5,7 +5,7 @@ import torch
 from albumentations.pytorch import ToTensorV2
 from utils import seed_everything
 
-DATASET = 'PASCAL_VOC'
+DATASET = 'dataset/PASCAL_VOC'
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 # seed_everything()  # If you want deterministic behavior
 NUM_WORKERS = 4
@@ -22,9 +22,9 @@ S = [IMAGE_SIZE // 32, IMAGE_SIZE // 16, IMAGE_SIZE // 8]
 PIN_MEMORY = True
 LOAD_MODEL = False
 SAVE_MODEL = False
-CHECKPOINT_FILE = "checkpoint.pth.tar"
-IMG_DIR = DATASET + "/images/"
-LABEL_DIR = DATASET + "/labels/"
+CHECKPOINT_FILE = "model/checkpoint.pth.tar"
+IMG_DIR = DATASET + "dataset/PASCAL_VOC/images/"
+LABEL_DIR = DATASET + "dataset/PASCAL_VOC/labels/"
 
 ANCHORS = [
     [(0.28, 0.22), (0.38, 0.48), (0.9, 0.78)],

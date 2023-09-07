@@ -23,8 +23,8 @@ PIN_MEMORY = True
 LOAD_MODEL = False
 SAVE_MODEL = False
 CHECKPOINT_FILE = "model/checkpoint.pth.tar"
-IMG_DIR = DATASET + "dataset/PASCAL_VOC/images/"
-LABEL_DIR = DATASET + "dataset/PASCAL_VOC/labels/"
+IMG_DIR = DATASET + "/images/"
+LABEL_DIR = DATASET + "/labels/"
 
 ANCHORS = [
     [(0.28, 0.22), (0.38, 0.48), (0.9, 0.78)],

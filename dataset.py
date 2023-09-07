@@ -7,7 +7,7 @@ from PIL import Image, ImageFile
 from torch.utils.data import Dataset, DataLoader
 from utils import (
     iou_width_height as iou,
-    non_max_suppresion as nms
+    non_max_suppression as nms
 )
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
@@ -25,15 +25,16 @@ class YOLODataset(Dataset):
         transform=None
     ):
 
-    self.annotations = pd.read_csv(csv_file)
-    self.img_dir = img_dir
-    self.label_dir = label_dir
-    self.transform = transform
-    self.S = S
-    self.anchors = torch.tensor(anchors[0]+anchors[1]+anchors[2])
-    self.num_anchors_per_scale = self.num_anchors//3
-    self.C = C
-    self.ignore_iou_thresh = 0.5
+        self.annotations = pd.read_csv(csv_file)
+        self.img_dir = img_dir
+        self.label_dir = label_dir
+        self.transform = transform
+        self.S = S
+        self.anchors = torch.tensor(anchors[0]+anchors[1]+anchors[2])
+        self.num_anchors = self.anchors.shape[0]
+        self.num_anchors_per_scale = self.num_anchors//3
+        self.C = C
+        self.ignore_iou_thresh = 0.5
 
 
     def __len__(self):
@@ -41,7 +42,7 @@ class YOLODataset(Dataset):
 
     def __getitem__(self, index):
         label_path = os.path.join(self.label_dir, self.annotations.iloc[index, 1])
-        bboxes = np.rpll(np.loadtxt(fname=label_path, delimiter=" ", ndmin=2), 4, axis=1).tolist()
+        bboxes = np.roll(np.loadtxt(fname=label_path, delimiter=" ", ndmin=2), 4, axis=1).tolist()
         img_path = os.path.join(self.img_dir, self.annotations.iloc[index,0])
         image = np.array(Image.open(img_path).convert('RGB'))
 
@@ -54,7 +55,7 @@ class YOLODataset(Dataset):
 
         for box in bboxes:
             iou_anchors = iou(torch.tensor(box[2:4]), self.anchors)
-            anchor_indices = iou.argsort(descending=True, dim=0)
+            anchor_indices = iou_anchors.argsort(descending=True, dim=0)
 
             x, y, width, height, class_label = box
             has_anchor = [False, False, False]

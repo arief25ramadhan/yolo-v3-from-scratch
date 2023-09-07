@@ -51,6 +51,6 @@ class YoloLoss(nn.Module):
         return (
             self.lambda_box*box_loss
             + self.lambda_obj*object_loss
-            + self.lambda.noobj*no_object_loss
+            + self.lambda_noobj*no_object_loss
             + self.lambda_class*class_loss
         )

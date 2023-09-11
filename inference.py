@@ -60,42 +60,47 @@ def inference_image(image_path, model, image_transform, device='cuda'):
     img_normalized = img_normalized['image'].unsqueeze(0).to(device)
     print(img_normalized.shape)
 
-    iou_threshold=config.NMS_IOU_THRESH,
-    anchors=config.ANCHORS,
-    threshold=config.CONF_THRESHOLD,
-    box_format="midpoint",
-    
+    iou_threshold=config.NMS_IOU_THRESH
+    anchors=config.ANCHORS
+    S = config.S
+    threshold=config.CONF_THRESHOLD
+    box_format="midpoint"
+    all_pred_boxes = []
+    train_idx = 0
+
     model.eval()
     
     with torch.no_grad():
 
         predictions = model(img_normalized)
-        # print('preds: ', len(preds))
-        # print('preds: ', len(preds[0][0]))
+    
+    batch_size = img_normalized.shape[0]
+    bboxes = [[] for _ in range(batch_size)]
+    print("Anchors :", anchors)
 
-        batch_size = 1
-        bboxes = [[] for _ in range(batch_size)]
-        for i in range(3):
-            S = predictions[i].shape[2]
-            anchor = torch.tensor([*anchors[i]]).to(device) * S
-            boxes_scale_i = cells_to_bboxes(
-                predictions[i], anchor, S=S, is_preds=True
-            )
-            for idx, (box) in enumerate(boxes_scale_i):
-                bboxes[idx] += box
+    for i in range(3):
+        S = predictions[i].shape[2]
+        print("S: ", S)
+        anchor = torch.tensor([*anchors[i]]).to(device) * S
+        print("Anchor Shape: ", anchor.shape)
+        boxes_scale_i = cells_to_bboxes(
+            predictions[i], anchor, S=S, is_preds=True
+        )
+        for idx, (box) in enumerate(boxes_scale_i):
+            bboxes[idx] += box
 
-        for idx in range(batch_size):
-            nms_boxes = non_max_suppression(
-                bboxes[idx],
-                iou_threshold=iou_threshold,
-                threshold=threshold,
-                box_format=box_format,
-            )
+    for idx in range(batch_size):
+        nms_boxes = non_max_suppression(
+            bboxes[idx],
+            iou_threshold=iou_threshold,
+            threshold=threshold,
+            box_format=box_format,
+        )
 
-            for nms_box in nms_boxes:
-                all_pred_boxes.append([train_idx] + nms_box)
+        for nms_box in nms_boxes:
+            all_pred_boxes.append([train_idx] + nms_box)
 
-            train_idx += 1
+        train_idx += 1
 
     print(all_pred_boxes)
 

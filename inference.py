@@ -76,13 +76,10 @@ def inference_image(image_path, model, image_transform, device='cuda'):
     
     batch_size = img_normalized.shape[0]
     bboxes = [[] for _ in range(batch_size)]
-    print("Anchors :", anchors)
-
+   
     for i in range(3):
         S = predictions[i].shape[2]
-        print("S: ", S)
         anchor = torch.tensor([*anchors[i]]).to(device) * S
-        print("Anchor Shape: ", anchor.shape)
         boxes_scale_i = cells_to_bboxes(
             predictions[i], anchor, S=S, is_preds=True
         )

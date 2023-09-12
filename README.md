@@ -118,6 +118,11 @@ After training your YOLOv3 model, you can perform inference on images.
 python inference.py --image path/to/your/image.jpg --model path/to/your/model_weights.h5
 ```
 
-## 6. Performance Tuning
+## 6. Performance Results
 
-For improved performance, consider fine-tuning your model, adjusting hyperparameters, or exploring other pre-processing techniques. Feel free to experiment and share your findings.
+### 6.1. Accuracy
+We train the Yolo V3 from the checkpoint created by Aladdin Persson. This project is only for learning. So, creating the most accurate model, which requires a lot of tuning and training, is not our priority.
+
+### 6.2. Memory Consumption
+
+To improve the efficiency of our model, we convert it to JIT format. This conversion results in a slimmer and faster model. Table 2 compares the performance of the original model and the scripted model.

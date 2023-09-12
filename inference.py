@@ -103,3 +103,34 @@ def inference_image(image_path, model, image_transform, device='cuda'):
 
 image_path = 'dataset/PASCAL_VOC/images/000015.jpg'
 inference_image(image_path, model, test_transform)
+
+
+
+# CPU Torch
+start_time = time.time()
+inference_image(image_path, model, test_transform, device='cpu')
+elapsed_time = time.time() - start_time
+print("Torch Model CPU time: ", elapsed_time)
+
+# GPU Torch
+if torch.cuda.is_available():
+    start_time = time.time()
+    inference_image(image_path, model, test_transform, device='cuda')
+    elapsed_time = time.time() - start_time
+    print("Torch Model GPU time: ", elapsed_time)
+
+# Scripting Model 
+scripted_model = torch.jit.script(model)
+
+# CPU
+start_time = time.time()
+inference_image(image_path, scripted_model, test_transform, device='cpu')
+elapsed_time = time.time() - start_time
+print("Scripted Model CPU time: ", elapsed_time)
+
+# GPU Torch
+if torch.cuda.is_available():
+    start_time = time.time()
+    inference_image(image_path, scripted_model, test_transform, device='cuda')
+    elapsed_time = time.time() - start_time
+    print("Scripted Model GPU time: ", elapsed_time)

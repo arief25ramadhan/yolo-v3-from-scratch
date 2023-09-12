@@ -2,3 +2,4 @@ dataset/
 model/
 *__pycache__*
 *.pth.tar
+torchscript_optimization.py

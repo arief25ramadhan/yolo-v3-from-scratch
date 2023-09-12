@@ -19,7 +19,8 @@ from utils import (
     check_class_accuracy,
     get_loaders, 
     plot_couple_examples, 
-    non_max_suppression
+    non_max_suppression,
+    plot_image
 )
 
 print(config.IMAGE_SIZE)
@@ -66,7 +67,6 @@ def inference_image(image_path, model, image_transform, device='cuda'):
     threshold=config.CONF_THRESHOLD
     box_format="midpoint"
     all_pred_boxes = []
-    train_idx = 0
 
     model.eval()
     
@@ -95,11 +95,12 @@ def inference_image(image_path, model, image_transform, device='cuda'):
         )
 
         for nms_box in nms_boxes:
-            all_pred_boxes.append([train_idx] + nms_box)
+            all_pred_boxes.append(nms_box)
 
-        train_idx += 1
-
-    print(all_pred_boxes)
+    # print(bboxes)
+    print(all_pred_boxes[0])
+    print("Plot Image")
+    plot_image(img, all_pred_boxes)
 
 
 image_path = 'dataset/PASCAL_VOC/images/000015.jpg'

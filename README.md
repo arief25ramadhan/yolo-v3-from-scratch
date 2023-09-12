@@ -1,5 +1,9 @@
 # YOLOv3 Object Detection from Scratch
+
 <img src="https://pjreddie.com/media/image/yologo_2.png" alt="drawing" width="100"/>
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
 
 This is a comprehensive repository for creating YOLOv3 (You Only Look Once version 3) Object Detection from scratch. YOLO is a state-of-the-art, real-time object detection system that can detect multiple objects in a single frame with impressive accuracy.
 
@@ -18,8 +22,6 @@ In this project, we provide step-by-step instructions, code, and resources to gu
    - [Training Process](#training-process)
 5. [Inference](#inference)
 6. [Performance Tuning](#performance-tuning)
-7. [Contributing](#contributing)
-8. [License](#license)
 
 ## Introduction
 
@@ -31,11 +33,11 @@ Object detection is a fundamental task in computer vision, and YOLOv3 is one of 
 
 Before you begin, make sure you have the following prerequisites installed:
 
-- Python (3.6 or higher)
-- TensorFlow (2.0 or higher)
+- Python (3.8 or higher)
+- Pytorch (2.0 or higher)
 - NumPy
 - OpenCV
-- [COCO dataset](https://cocodataset.org/#download)
+- [Pascal VOC Dataset](https://cocodataset.org/#download)
 
 ### Installation
 

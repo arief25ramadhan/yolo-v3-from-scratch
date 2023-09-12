@@ -97,8 +97,6 @@ def inference_image(image_path, model, image_transform, device='cuda'):
         for nms_box in nms_boxes:
             all_pred_boxes.append(nms_box)
 
-    # print(bboxes)
-    print(all_pred_boxes[0])
     print("Plot Image")
     plot_image(img, all_pred_boxes)
 

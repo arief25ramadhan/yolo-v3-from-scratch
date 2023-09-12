@@ -5,7 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
 
-This is a comprehensive repository for creating YOLOv3 (You Only Look Once version 3) Object Detection from scratch. YOLO is a state-of-the-art, real-time object detection system that can detect multiple objects in a single frame with impressive accuracy.
+This project aims to create the YOLOv3 (You Only Look Once version 3) Object Detection from scratch. YOLO is real-time object detection system that can detect multiple objects in a single frame with impressive accuracy.
 
 In this project, we provide step-by-step instructions, code, and resources to guide you through the process of implementing YOLOv3 from the ground up. Whether you are new to object detection or looking to deepen your understanding of YOLO, this repository will help you achieve your goals.
 
@@ -23,34 +23,34 @@ In this project, we provide step-by-step instructions, code, and resources to gu
 5. [Inference](#inference)
 6. [Performance Tuning](#performance-tuning)
 
-## Introduction
+## 1. Introduction
 
 Object detection is a fundamental task in computer vision, and YOLOv3 is one of the most popular and effective approaches for real-time object detection. This project aims to teach you how YOLOv3 works by building it from scratch. By following the steps outlined here, you will gain a deep understanding of the architecture, training process, and inference pipeline of YOLOv3.
 
-## Getting Started
+## 2. Getting Started
 
-### Prerequisites
+### 2.1. Prerequisites
 
 Before you begin, make sure you have the following prerequisites installed:
 
-- Python (3.8 or higher)
-- Pytorch (2.0 or higher)
+- Python
+- Pytorch
 - NumPy
 - OpenCV
 - [Pascal VOC Dataset](https://cocodataset.org/#download)
 
-### Installation
+### 2.2. Installation
 
 1. Clone this repository to your local machine:
 
    ```bash
-   git clone https://github.com/AwesomeDeveloperCorp/YOLOv3-Object-Detection-From-Scratch.git
+   git clone https://github.com/arief25ramadhan/yolo-v3-from-scratch.git
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd YOLOv3-Object-Detection-From-Scratch
+   cd yolo-v3-from-scratch
    ```
 
 3. Install the required Python packages:
@@ -59,7 +59,7 @@ Before you begin, make sure you have the following prerequisites installed:
    pip install -r requirements.txt
    ```
 
-## Project Structure
+## 3. Project Structure
 
 ```
 /
@@ -74,11 +74,11 @@ Before you begin, make sure you have the following prerequisites installed:
 |-- LICENSE                  # License information
 ```
 
-## Training
+## 4. Training
 
 Training YOLOv3 from scratch requires data preparation, model configuration, and the training process itself.
 
-### Data Preparation
+### 4.1. Data Preparation
 
 1. Download the COCO dataset and annotations from [here](https://cocodataset.org/#download). You will need the train and validation sets.
 
@@ -96,11 +96,11 @@ Training YOLOv3 from scratch requires data preparation, model configuration, and
 
 3. Convert the annotations to YOLO format using the provided script in the `src/` directory.
 
-### Model Configuration
+### 4.2. Model Configuration
 
 Configure the YOLOv3 model architecture in the `src/yolov3_model.py` file. You can customize the number of classes, anchors, and other hyperparameters to match your dataset.
 
-### Training Process
+### 4.3. Training Process
 
 Run the training script to start training:
 
@@ -110,14 +110,14 @@ python src/train.py
 
 You can monitor training progress using TensorBoard.
 
-## Inference
+## 5. Inference
 
-After training your YOLOv3 model, you can perform inference on images or videos. The inference script is provided in the `src/` directory.
+After training your YOLOv3 model, you can perform inference on images.
 
 ```bash
-python src/inference.py --image path/to/your/image.jpg --model path/to/your/model_weights.h5
+python inference.py --image path/to/your/image.jpg --model path/to/your/model_weights.h5
 ```
 
-## Performance Tuning
+## 6. Performance Tuning
 
 For improved performance, consider fine-tuning your model, adjusting hyperparameters, or exploring other pre-processing techniques. Feel free to experiment and share your findings.

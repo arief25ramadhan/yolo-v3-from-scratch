@@ -23,7 +23,6 @@ from utils import (
     plot_image
 )
 
-print(config.IMAGE_SIZE)
 
 ## 1. Data Transform
 test_transform = A.Compose(
@@ -35,7 +34,6 @@ test_transform = A.Compose(
         A.Normalize(mean=[0, 0, 0], std=[1, 1, 1], max_pixel_value=255,),
         ToTensorV2(),
     ],
-    # bbox_params=A.BboxParams(format="yolo", min_visibility=0.4, label_fields=[]),
 )
 
 
@@ -50,7 +48,8 @@ checkpoint = torch.load(model_path)
 model.load_state_dict(checkpoint['state_dict'])
 # optimizer.load_state_dict(checkpoint['optimizer'])
 
-# # Inference function
+
+## 3. Inference function
 def inference_image(image_path, model, image_transform, device='cuda'):
 
     model = model.to(device)
@@ -101,36 +100,6 @@ def inference_image(image_path, model, image_transform, device='cuda'):
     plot_image(img, all_pred_boxes)
 
 
+## 4. Inference
 image_path = 'dataset/PASCAL_VOC/images/000015.jpg'
 inference_image(image_path, model, test_transform)
-
-
-
-# CPU Torch
-start_time = time.time()
-inference_image(image_path, model, test_transform, device='cpu')
-elapsed_time = time.time() - start_time
-print("Torch Model CPU time: ", elapsed_time)
-
-# GPU Torch
-if torch.cuda.is_available():
-    start_time = time.time()
-    inference_image(image_path, model, test_transform, device='cuda')
-    elapsed_time = time.time() - start_time
-    print("Torch Model GPU time: ", elapsed_time)
-
-# Scripting Model 
-scripted_model = torch.jit.script(model)
-
-# CPU
-start_time = time.time()
-inference_image(image_path, scripted_model, test_transform, device='cpu')
-elapsed_time = time.time() - start_time
-print("Scripted Model CPU time: ", elapsed_time)
-
-# GPU Torch
-if torch.cuda.is_available():
-    start_time = time.time()
-    inference_image(image_path, scripted_model, test_transform, device='cuda')
-    elapsed_time = time.time() - start_time
-    print("Scripted Model GPU time: ", elapsed_time)

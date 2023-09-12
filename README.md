@@ -1,6 +1,5 @@
 # YOLOv3 Object Detection from Scratch
-
-![YOLOv3 Logo](https://github.com/AwesomeDeveloperCorp/YOLOv3-Object-Detection-From-Scratch/blob/main/images/yolov3_logo.png)
+<img src="https://pjreddie.com/media/image/yologo_2.png" alt="drawing" width="100"/>
 
 This is a comprehensive repository for creating YOLOv3 (You Only Look Once version 3) Object Detection from scratch. YOLO is a state-of-the-art, real-time object detection system that can detect multiple objects in a single frame with impressive accuracy.
 

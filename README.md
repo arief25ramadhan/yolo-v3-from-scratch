@@ -7,7 +7,7 @@
 
 This project aims to create the YOLOv3 (You Only Look Once version 3) Object Detection from scratch. YOLO is real-time object detection system that can detect multiple objects in a single frame with impressive accuracy.
 
-In this project, we provide step-by-step instructions, code, and resources to guide you through the process of implementing YOLOv3 from the ground up. Whether you are new to object detection or looking to deepen your understanding of YOLO, this repository will help you achieve your goals.
+We willl provide the step-by-step instructions, code, and resources to guide you through the process of implementing YOLOv3 from the ground up. Whether you are new to object detection or looking to deepen your understanding of YOLO,  we hope this repository will help you achieve your goals.
 
 ## Table of Contents
 
@@ -25,7 +25,12 @@ In this project, we provide step-by-step instructions, code, and resources to gu
 
 ## 1. Introduction
 
-Object detection is a fundamental task in computer vision, and YOLOv3 is one of the most popular and effective approaches for real-time object detection. This project aims to teach you how YOLOv3 works by building it from scratch. By following the steps outlined here, you will gain a deep understanding of the architecture, training process, and inference pipeline of YOLOv3.
+Object detection is a fundamental task in computer vision, and YOLO is one of the most popular and effective approaches. This project aims to teach you how YOLOv3 works by building it from scratch. By following the steps outlined here, you will gain a deep understanding of the architecture, training process, and inference pipeline of YOLOv3.
+
+<img src="https://miro.medium.com/v2/resize:fit:1200/1*d4Eg17IVJ0L41e7CTWLLSg.png" alt="drawing" width="800"/>
+
+
+
 
 ## 2. Getting Started
 
@@ -62,16 +67,15 @@ Before you begin, make sure you have the following prerequisites installed:
 ## 3. Project Structure
 
 ```
-/
-|-- data/                    # Data-related files (datasets, annotations, etc.)
-|-- model/                   # YOLOv3 model architecture and checkpoints
-|-- notebooks/               # Jupyter notebooks for experimenting
-|-- src/                     # Source code for YOLOv3 implementation
-|-- utils/                   # Utility functions
-|-- images/                  # Images used in README and documentation
-|-- README.md                # Project README (you are here)
-|-- requirements.txt         # List of Python dependencies
-|-- LICENSE                  # License information
+|-- dataset/                 # Folder containing data files
+|-- model/                   # Folder containing model files
+|-- train.py                 # Training script
+|-- dataset.py               # Script to load dataset
+|-- loss.py                  # Script to load loss function
+|-- utils.py                 # Script containing helper functions
+|-- config.py                # Script containing hyperparameters
+|-- model.py                 # Script to load model
+|-- inference.py             # Script to perform inference
 ```
 
 ## 4. Training
@@ -80,21 +84,18 @@ Training YOLOv3 from scratch requires data preparation, model configuration, and
 
 ### 4.1. Data Preparation
 
-1. Download the COCO dataset and annotations from [here](https://cocodataset.org/#download). You will need the train and validation sets.
+1. Download the PASCAL VOC dataset and annotations from [here](https://cocodataset.org/#download). The PASCAL VOC is a dataset of 20 class 
 
 2. Organize your dataset in the following directory structure:
 
    ```
-   /data/
-   |-- coco/
-       |-- train2017/          # Training images
-       |-- val2017/            # Validation images
-       |-- annotations/
-           |-- instances_train2017.json  # Training annotations
-           |-- instances_val2017.json    # Validation annotations
+   dataset/
+   |-- PASCAL_VOC/
+       |-- images/          # Contain images
+       |-- labels/          # Contain labels
+       |-- train.csv        # Define image belongs to train set
+       |-- test.csv         # Define image belongs to test set
    ```
-
-3. Convert the annotations to YOLO format using the provided script in the `src/` directory.
 
 ### 4.2. Model Configuration
 
@@ -105,7 +106,7 @@ Configure the YOLOv3 model architecture in the `src/yolov3_model.py` file. You c
 Run the training script to start training:
 
 ```bash
-python src/train.py
+python train.py
 ```
 
 You can monitor training progress using TensorBoard.
@@ -120,9 +121,36 @@ python inference.py --image path/to/your/image.jpg --model path/to/your/model_we
 
 ## 6. Performance Results
 
-### 6.1. Accuracy
+### 6.1. Mean Average Precision
 We train the Yolo V3 from the checkpoint created by Aladdin Persson. This project is only for learning. So, creating the most accurate model, which requires a lot of tuning and training, is not our priority.
+
+| Model                   | mAP @ 50 IoU |
+| ----------------------- |:-----------------:|
+| YOLOv3 (Pascal VOC) 	  | 78.2              |
+| YOLOv3 (MS-COCO)        | Will probably train on this at some point      |
+
 
 ### 6.2. Memory Consumption
 
 To improve the efficiency of our model, we convert it to JIT format. This conversion results in a slimmer and faster model. Table 2 compares the performance of the original model and the scripted model.
+
+## 7. Acknowledgement
+
+### 7.1. The Original Paper
+The implementation is based on the [YOLOv3: An Incremental Improvement](https://arxiv.org/abs/1804.02767) by Joseph Redmon and Ali Farhadi.
+
+#### Abstract
+We present some updates to YOLO! We made a bunch of little design changes to make it better. We also trained this new network that’s pretty swell. It’s a little bigger than last time but more accurate. It’s still fast though, don’t worry. At 320 × 320 YOLOv3 runs in 22 ms at 28.2 mAP, as accurate as SSD but three times faster. When we look at the old .5 IOU mAP detection metric YOLOv3 is quite good. It achieves 57.9 AP50 in 51 ms on a Titan X, compared to 57.5 AP50 in 198 ms by RetinaNet, similar performance but 3.8× faster. As always, all the code is online at https://pjreddie.com/yolo/.
+
+```
+@article{yolov3,
+  title={YOLOv3: An Incremental Improvement},
+  author={Redmon, Joseph and Farhadi, Ali},
+  journal = {arXiv},
+  year={2018}
+}
+```
+
+### 7.2. The Code 
+
+This project is for learning purposes and made by following the tutorial by Aladdin Persson in his [Youtube channel](https://www.youtube.com/watch?v=Grir6TZbc1M). The original code is also available in [his repository](https://github.com/aladdinpersson/Machine-Learning-Collection/tree/master/ML/Pytorch/object_detection/YOLOv3).

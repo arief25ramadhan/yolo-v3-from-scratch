@@ -29,11 +29,9 @@ Object detection is a fundamental task in computer vision, and YOLO is one of th
 
 ### 1.1. A brief explanation of the Model
 
-Yolo v3 used a Feature Pyramid Network
+Yolo v3 uses a single neural network to the full image. This network divides the image into regions and predicts bounding boxes and probabilities for each region. These bounding boxes are weighted by the predicted probabilities. YOLOv3 uses a few tricks to improve training and increase performance, including: multi-scale predictions, a better backbone classifier, and more. 
+
 <img src="https://miro.medium.com/v2/resize:fit:1200/1*d4Eg17IVJ0L41e7CTWLLSg.png" alt="drawing" width="800"/>
-
-
-
 
 ## 2. Getting Started
 

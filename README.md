@@ -27,6 +27,9 @@ We willl provide the step-by-step instructions, code, and resources to guide you
 
 Object detection is a fundamental task in computer vision, and YOLO is one of the most popular and effective approaches. This project aims to teach you how YOLOv3 works by building it from scratch. By following the steps outlined here, you will gain a deep understanding of the architecture, training process, and inference pipeline of YOLOv3.
 
+### 1.1. A brief explanation of the Model
+
+Yolo v3 used a Feature Pyramid Network
 <img src="https://miro.medium.com/v2/resize:fit:1200/1*d4Eg17IVJ0L41e7CTWLLSg.png" alt="drawing" width="800"/>
 
 
@@ -120,6 +123,8 @@ python inference.py --image path/to/your/image.jpg --model path/to/your/model_we
 ```
 
 ## 6. Performance Results
+
+Figure 1 shows some of the inference results of our Yolo V3 model. We can see that the model does mispredicted.
 
 ### 6.1. Mean Average Precision
 We train the Yolo V3 from the checkpoint created by Aladdin Persson. This project is only for learning. So, creating the most accurate model, which requires a lot of tuning and training, is not our priority.

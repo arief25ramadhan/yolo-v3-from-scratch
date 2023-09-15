@@ -130,7 +130,7 @@ We train the Yolo V3 from the checkpoint created by Aladdin Persson. The perform
 
 | Model                   | mAP @ 50 IoU |
 | ----------------------- |:-----------------:|
-| YOLOv3 (Pascal VOC) 	  | 78.2              |
+| YOLOv3 (Pascal VOC) 	  | 77.64             |
 | YOLOv3 Further Trained  | 78.2              |
 
 

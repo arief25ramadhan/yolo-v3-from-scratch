@@ -1,4 +1,5 @@
 # Import libraries
+import os
 import config
 import torch
 import torch.optim as optim
@@ -20,7 +21,8 @@ from utils import (
     get_loaders, 
     plot_couple_examples, 
     non_max_suppression,
-    plot_image
+    plot_image,
+    draw_and_save_image
 )
 
 
@@ -97,9 +99,13 @@ def inference_image(image_path, model, image_transform, device='cuda'):
             all_pred_boxes.append(nms_box)
 
     print("Plot Image")
-    plot_image(img, all_pred_boxes)
+    file_name = os.path.basename(image_path)
+    print('file_name: ', file_name)
+    save_path = 'media/' + file_name.replace('.jpg', '_predicted.jpg')
+    print('save_path: ', save_path)
+    draw_and_save_image(img, all_pred_boxes, save_path=save_path)
 
 
 ## 4. Inference
-image_path = 'dataset/PASCAL_VOC/images/000015.jpg'
+image_path = 'dataset/PASCAL_VOC/images/000004.jpg'
 inference_image(image_path, model, test_transform)

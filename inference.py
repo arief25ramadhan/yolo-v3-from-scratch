@@ -48,8 +48,6 @@ optimizer = optim.Adam(
 model_path = 'model/yolov3_pascal_78.1map.pth.tar'
 checkpoint = torch.load(model_path)
 model.load_state_dict(checkpoint['state_dict'])
-# optimizer.load_state_dict(checkpoint['optimizer'])
-
 
 ## 3. Inference function
 def inference_image(image_path, model, image_transform, device='cuda'):

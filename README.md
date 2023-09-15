@@ -121,7 +121,10 @@ python inference.py --image path/to/your/image.jpg --model path/to/your/model_we
 
 ## 6. Performance Results
 
-After training the model for 10 epochs, we look at the model's performance qualiatively and quantitatively. Figure 1 shows some of the inference results of our Yolo V3 model. We can see that the model does mispredicted. This project is only for learning. So, creating the most accurate model, which requires a lot of tuning and training, is not our priority.
+After training the model for 10 epochs, we look at the model's performance qualiatively and quantitatively. Figure below shows some of the inference results of our Yolo V3 model. We can see that the model does mispredicted. This project is only for learning. So, creating the most accurate model, which requires a lot of tuning and training, is not our priority.
+
+<img src="media/000015_predicted.jpg" alt="drawing" width="400"/>
+<img src="media/000004_predicted.jpg" alt="drawing" width="400"/>
 
 We train the Yolo V3 from the checkpoint created by Aladdin Persson. The performance of the model is shown by the table below.
 

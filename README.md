@@ -5,9 +5,7 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
 
-This project aims to create the YOLOv3 (You Only Look Once version 3) Object Detection from scratch. YOLO is an algorithm that can detect multiple objects in a single frame with impressive accuracy.
-
-We willl provide the step-by-step instructions, code, and resources to guide you through the process of implementing YOLOv3 from the ground up.
+This project aims to create the YOLOv3 (You Only Look Once version 3) object detection model from scratch. YOLO is an algorithm that can detect multiple objects in a single frame with impressive accuracy. We willl provide the step-by-step instructions, code, and resources to guide you through the process of implementing YOLOv3 from the ground up.
 
 ## Table of Contents
 
@@ -25,25 +23,26 @@ We willl provide the step-by-step instructions, code, and resources to guide you
 
 ## 1. Introduction
 
-Object detection is a fundamental task in computer vision, and YOLO is one of the most popular and effective approaches. This project aims to teach you build YOLOv3 from scratch. By following the steps outlined here, you will gain a deep understanding of the architecture, training process, and inference pipeline of YOLOv3.
+Object detection is a fundamental task in computer vision, and YOLO is one of the most popular and effective approaches. This project aims to build the YOLOv3 from the ground up. By following the steps outlined here, we hope you will gain a deep understanding of the architecture, training process, and inference pipeline of YOLOv3.
 
 ### 1.1. A brief explanation of the Model
 
-Yolo v3 uses a single neural network to look at the full image. This network divides the image into regions and predicts bounding boxes and probabilities for each region. These bounding boxes are weighted by the predicted probabilities. YOLOv3 uses a few tricks to improve training and increase performance from its previous iteration, including: multi-scale predictions, and better backbone classifier. The figure below shows the architecture of YOLOv3.
+Yolo v3 uses a single neural network to look at the full image. It divides the image into regions and predicts bounding boxes and probabilities for each region. These bounding boxes are weighted by the predicted probabilities. YOLOv3 uses a few tricks to improve training and increase performance from its previous iteration, including: multi-scale predictions, and better backbone classifier. The figure below shows the architecture of YOLOv3.
 
 <img src="https://miro.medium.com/v2/resize:fit:1200/1*d4Eg17IVJ0L41e7CTWLLSg.png" alt="drawing" width="800"/>
+
+Visit this [web page](https://pjreddie.com/darknet/yolo/) or [paper](https://arxiv.org/abs/1804.02767) for a more detailed technical explanation of YOLOv3 model.
 
 ## 2. Getting Started
 
 ### 2.1. Prerequisites
-
 Before you begin, make sure you have the following prerequisites installed:
 
-- Python
+- Python 3
 - Pytorch
 - NumPy
 - OpenCV
-- [Pascal VOC Dataset](https://cocodataset.org/#download)
+- PIL
 
 ### 2.2. Installation
 
@@ -65,25 +64,7 @@ Before you begin, make sure you have the following prerequisites installed:
    pip install -r requirements.txt
    ```
 
-## 3. Project Structure
-
-```
-|-- dataset/                 # Folder containing data files
-|-- model/                   # Folder containing model files
-|-- train.py                 # Training script
-|-- dataset.py               # Script to load dataset
-|-- loss.py                  # Script to load loss function
-|-- utils.py                 # Script containing helper functions
-|-- config.py                # Script containing hyperparameters
-|-- model.py                 # Script to load model
-|-- inference.py             # Script to perform inference
-```
-
-## 4. Training
-
-Training YOLOv3 from scratch requires data preparation, model configuration, and the training process itself.
-
-### 4.1. Data Preparation
+### 2.3. Data Preparation
 
 1. Download the PASCAL VOC dataset and annotations from [here](https://www.kaggle.com/datasets/aladdinpersson/pascal-voc-dataset-used-in-yolov3-video). The PASCAL VOC is a dataset of 20 classes of person, vehicles, animals, and indoor objects. The detailed list can be seen in the config.py script.
 
@@ -98,11 +79,31 @@ Training YOLOv3 from scratch requires data preparation, model configuration, and
        |-- test.csv         # Define image belongs to test set
    ```
 
-### 4.2. Model Configuration
 
-Configure the YOLOv3 model architecture in the `model/yolov3_model.py` file. You can download the pretrained model from [here](https://www.kaggle.com/datasets/1cf520aba05e023f2f80099ef497a8f3668516c39e6f673531e3e47407c46694).
+## 3. Project Structure
 
-### 4.3. Training Process
+```
+|-- dataset/                 # Folder containing data files
+|-- model/                   # Folder containing model files
+|-- train.py                 # Training script
+|-- dataset.py               # Script to load dataset
+|-- loss.py                  # Script to load loss function
+|-- utils.py                 # Script containing helper functions
+|-- config.py                # Script containing hyperparameters
+|-- model.py                 # Script to load model
+|-- inference.py             # Script to perform inference
+```
+
+
+## 4. Training
+
+Training YOLOv3 from scratch requires model configuration, and the training process itself.
+
+### 4.1. Model Configuration
+
+Configure the YOLOv3 model architecture in the `model.py` file. You can download the pretrained model from [here](https://www.kaggle.com/datasets/1cf520aba05e023f2f80099ef497a8f3668516c39e6f673531e3e47407c46694).
+
+### 4.2. Training Process
 
 Run the training script to start training:
 

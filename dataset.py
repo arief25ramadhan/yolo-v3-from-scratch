@@ -27,6 +27,7 @@ class YOLODataset(Dataset):
 
         self.annotations = pd.read_csv(csv_file)
         self.img_dir = img_dir
+        self.image_size = image_size
         self.label_dir = label_dir
         self.transform = transform
         self.S = S

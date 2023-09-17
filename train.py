@@ -58,13 +58,14 @@ def main():
     optimizer = optim.Adam(
         model.parameters(), lr=config.LEARNING_RATE, weight_decay=config.WEIGHT_DECAY
     )
+
+    loss_fn = YoloLoss()
+    scaler = torch.cuda.amp.GradScaler()
+
     train_loader, test_loader, train_eval_loader = get_loaders(
         train_csv_path = config.DATASET + '/train.csv',
         test_csv_path = config.DATASET + '/test.csv',
     )
-
-    loss_fn = YoloLoss()
-    scaler = torch.cuda.amp.GradScaler()
 
     if config.LOAD_MODEL:
         load_checkpoint(
@@ -83,7 +84,7 @@ def main():
         if config.SAVE_MODEL:
             save_checkpoint(model, optimizer)
 
-        if epoch >= 0 and epoch % 1 == 0:
+        if epoch > 0 and epoch % 3 == 0:
             check_class_accuracy(model, test_loader, threshold=config.CONF_THRESHOLD)
             pred_boxes, true_boxes = get_evaluation_bboxes(
                 test_loader,

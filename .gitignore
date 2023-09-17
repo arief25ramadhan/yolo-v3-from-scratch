@@ -3,3 +3,4 @@ model/
 *__pycache__*
 *.pth.tar
 torchscript_optimization.py
+loss_copy.py

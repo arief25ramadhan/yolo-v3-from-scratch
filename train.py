@@ -55,6 +55,7 @@ def train_fn(train_loader, model, optimizer,loss_fn,
 def main():
     
     model = YOLOv3(num_classes=config.NUM_CLASSES).to(config.DEVICE)
+    print("Device:", config.DEVICE)
     optimizer = optim.Adam(
         model.parameters(), lr=config.LEARNING_RATE, weight_decay=config.WEIGHT_DECAY
     )
@@ -84,7 +85,7 @@ def main():
         if config.SAVE_MODEL:
             save_checkpoint(model, optimizer)
 
-        if epoch > 0 and epoch % 3 == 0:
+        if epoch >= 0 and epoch % 1 == 0:
             check_class_accuracy(model, test_loader, threshold=config.CONF_THRESHOLD)
             pred_boxes, true_boxes = get_evaluation_bboxes(
                 test_loader,

@@ -1,6 +1,6 @@
 # YOLOv3 Object Detection from Scratch
 
-<img src="https://pjreddie.com/media/image/yologo_2.png" alt="drawing" width="100"/>
+<img src="https://pjreddie.com/media/image/yologo_2.png" alt="drawing" width="110"/>
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
